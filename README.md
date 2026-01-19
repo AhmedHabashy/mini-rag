@@ -17,3 +17,8 @@ python -m venv .venv
 ```bash
 source ./.venv/Scripts/activate
 ```
+
+## Run fastapi server
+```bash
+uvicorn main:app --reload --host 0.0.0.0 --port 5000
+```
