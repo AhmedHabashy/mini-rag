@@ -1,6 +1,7 @@
 from .Base_Controller import Base_Controller
 from fastapi import UploadFile
 from model import ResponseSignal
+import os
 
 class ProjectController(Base_Controller):
     
@@ -9,4 +10,12 @@ class ProjectController(Base_Controller):
     
 
     def get_project_path(self, project_id: str):
-        pass
+        project_dir = os.path.join(
+            self.files_dir,
+            project_id
+        )
+
+        if not os.path.exists(project_dir):
+            os.mkdir(project_dir)
+        
+        return project_dir

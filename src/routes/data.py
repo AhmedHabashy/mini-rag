@@ -1,7 +1,7 @@
 from fastapi import FastAPI, APIRouter, Depends, UploadFile, status
 from fastapi.responses import JSONResponse
 from helpers.config import get_settings,Settings
-from controllers import Data_Controller # you didn't specify what to get from controller so the compiler will look at __init__.py of the folder
+from controllers import Data_Controller, ProjectController # you didn't specify what to get from controller so the compiler will look at __init__.py of the folder
 import os
 
 data_router = APIRouter(
