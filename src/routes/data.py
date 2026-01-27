@@ -3,6 +3,8 @@ from fastapi.responses import JSONResponse
 from helpers.config import get_settings,Settings
 from controllers import Data_Controller, ProjectController # you didn't specify what to get from controller so the compiler will look at __init__.py of the folder
 import os
+from models import ResponseSignal
+import aiofiles
 
 data_router = APIRouter(
     prefix='/api/v1/data',
@@ -30,3 +32,14 @@ async def upload_data( project_id: str,
         project_dir_path,
         file.filename
     )
+
+    async with open(file_path,"wb") as f:
+        while chunk := await file.read(app_settings.FILE_DEFAULT_CHUNK_SIZE):
+            await f.write(chunk)
+        
+    return JSONResponse(
+        content={
+            "signal": ResponseSignal.FILE_UPLOAD_SUCCESS.value
+        }
+    )
+

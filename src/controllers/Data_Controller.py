@@ -1,6 +1,9 @@
 from .Base_Controller import Base_Controller
+from .Project_Controller import ProjectController
 from fastapi import UploadFile    
-from model import ResponseSignal
+from models import ResponseSignal
+import re
+import os
 
 class Data_Controller(Base_Controller):
 
@@ -17,3 +20,30 @@ class Data_Controller(Base_Controller):
             return False, ResponseSignal.FILE_SIZE_EXCEEDED.value
         
         return True,ResponseSignal.FILE_UPLOAD_SUCCESS.value
+    
+    def generate_unique_filename(self, orig_file_name: str, project_id: str):
+        
+        random_key = self.generate_random_string(orig_file_name)
+        project_path = ProjectController().get_project_path(project_id=project_id)
+        clean_file_name = self.get_clean_file_name(orig_file_name)
+
+        new_file_path = os.path.join(
+            project_path,
+            random_key + "_" + clean_file_name
+        )
+
+        while os.path.exists(new_file_path):
+            random_key = self.generate_random_string
+            new_file_path = os.path.join(
+                project_path,
+                random_key + "_" + clean_file_name
+        )
+        
+        return new_file_path
+
+    def get_clean_file_name(self, orig_file_name:str):
+
+        clean_file_name = re.sub(r'[^\w.]','',orig_file_name.strip())
+        clean_file_name = clean_file_name.replace(' ','_')
+        
+        return clean_file_name
