@@ -1,9 +1,9 @@
-from helpers.config import get_settings, Settings
+from helpers.config import get_settings
 import os
 import random
 import string
 
-class Base_Controller:
+class BaseController:
 
     def __init__(self):
         

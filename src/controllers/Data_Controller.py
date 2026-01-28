@@ -1,11 +1,11 @@
-from .Base_Controller import Base_Controller
+from .Base_Controller import BaseController
 from .Project_Controller import ProjectController
 from fastapi import UploadFile    
 from models import ResponseSignal
 import re
 import os
 
-class Data_Controller(Base_Controller):
+class Data_Controller(BaseController):
 
     def __init__(self):
         super().__init__()
@@ -23,7 +23,7 @@ class Data_Controller(Base_Controller):
     
     def generate_unique_filepath(self, orig_file_name: str, project_id: str):
         
-        random_key = self.generate_random_string(orig_file_name)
+        random_key = self.generate_random_string()
         project_path = ProjectController().get_project_path(project_id=project_id)
         clean_file_name = self.get_clean_file_name(orig_file_name)
 
@@ -33,7 +33,7 @@ class Data_Controller(Base_Controller):
         )
 
         while os.path.exists(new_file_path):
-            random_key = self.generate_random_string
+            random_key = self.generate_random_string()
             new_file_path = os.path.join(
                 project_path,
                 random_key + "_" + clean_file_name
