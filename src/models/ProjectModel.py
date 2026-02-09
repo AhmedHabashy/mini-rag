@@ -23,7 +23,7 @@ class ProjectModel(BaseDataModel):
         if record is None:
             # create new project
             project = Project(project_id=project_id)
-            project = self.create_project(project=project)
+            project = await self.create_project(project=project)
             return project
         
         return Project(**record)
@@ -31,7 +31,7 @@ class ProjectModel(BaseDataModel):
     async def get_all_projects(self, page:int = 1, page_size:int = 10):
 
         #count total number of documents
-        total_documents = self.collection.count_documents({})
+        total_documents = await self.collection.count_documents({})
 
         #calculate total number of pages
         total_pages = total_documents // page_size
